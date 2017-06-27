@@ -18,12 +18,13 @@
 <body>
     <!-- Div to show the scanner -->
     <div id="scanner-container"></div>
-    <input type="button" id="btn" value="Start/Stop the scanner" />
+    <!-- <input type="button" id="btn" value="Start/Stop the scanner" /> -->
 
     <!-- Include the image-diff library -->
     <script src="quagga.min.js"></script>
 
-    <script>
+    <script type="text/javascript">
+        var freshStart = true;
         var _scannerIsRunning = false;
 
         function startScanner() {
@@ -33,8 +34,8 @@
                     type: "LiveStream",
                     target: document.querySelector('#scanner-container'),
                     constraints: {
-                        width: 480,
-                        height: 320,
+                        width: 345,
+                        height: 345,
                         facingMode: "environment"
                     },
                 },
@@ -106,20 +107,23 @@
 
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
-                alert("Barcode detected and processed : [" + result.codeResult.code + "]", result);
+                alert("Barcode detected and processed : [" + result.codeResult.code + "]");
                 Quagga.stop();
+                _scannerIsRunning = false;
+
             });
         }
 
 
         // Start/stop scanner
-        document.getElementById("btn").addEventListener("click", function () {
+        // document.getElementById("btn").addEventListener("click", function () {
             if (_scannerIsRunning) {
                 Quagga.stop();
             } else {
+                alert("OK to Scan | Refresh to ReScan");
                 startScanner();
             }
-        }, false);
+        // }, false);
     </script>
 </body>
 
